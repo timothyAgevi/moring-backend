@@ -1,6 +1,8 @@
 ### A simple blog `API`
 
 This is a simple implementation of a blog app that one can(Once registered):
+- Users can create account
+- Users can update their profile
 - Create posts 
 - Update their posts
 - Delete personal posts
