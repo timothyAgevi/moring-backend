@@ -27,3 +27,23 @@ Running the script in production
 ```sh
 npm start
 ```
+
+# API endpoints
+
+```sh
+# Authentication
+/auth/register/
+/auth/login/
+#Account management
+/user/single/:userId
+/user/all
+/user/update/:userId
+/user/blogs
+# Blog management
+/blog/update/:blogId/
+/blog/delete/:blogId/
+/blog/like/:blogId/
+/blog/comment/:blogId/
+/blog/single/:blogId/
+/blog/
+```
