@@ -7,6 +7,7 @@ const { DATABASE_URL } = require("../config")
 const userRouter = require("./../routes/user.routes")
 const authRouter = require("./../routes/auth.routes")
 const blogRouter = require("./../routes/blog.routes")
+const html = require("../html")
 
 /**
  *
@@ -24,4 +25,7 @@ module.exports = async (app) => {
 	app.use("/user", userRouter)
 	app.use("/blog", blogRouter)
 	app.use("/auth", authRouter)
+	app.get("/",(req,res)=>{
+		res.send(html)
+	})
 }
