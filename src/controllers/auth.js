@@ -19,7 +19,11 @@ module.exports.login = async (req, res, next) => {
 				.status(401)
 				.json({ success: false, message: "Check your login details" })
 		}
-		const token = jwt.sign({ userId: user._id, email: user.email }, SECRET_KEY)
+		const token = jwt.sign(
+			{ userId: user._id, email: user.email },
+			SECRET_KEY,
+			{ expiresIn: "7d" },
+		)
 		const { password, ...props } = user._doc
 		return res.status(200).json({ success: true, user: props, token })
 	} catch (err) {

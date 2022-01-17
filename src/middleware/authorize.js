@@ -20,6 +20,7 @@ const Authorize = async (req, res, next) => {
 		const token = HeaderToken.split(" ")[1]
 		return jwt.verify(token, SECRET_KEY, async (err, payload) => {
 			if (err) {
+				// console.log(err)
 				return res
 					.status(401)
 					.json({ success: false, message: "Not authenticated" })
@@ -47,9 +48,7 @@ const AuthorizeBlogOwner = async (req, res, next) => {
 				$and: [{ _id: userId }, { $in: [{ blogs: blogId }] }],
 			})
 			if (!user)
-				return res
-					.status(403)
-					.json({ success: false, message: "Forbidden" })
+				return res.status(403).json({ success: false, message: "Forbidden" })
 			return next()
 		})
 	} catch (err) {
