@@ -62,7 +62,7 @@ module.exports.likeBlog = async (req, res, next) => {
 				{ $pull: { likedBlogs: req.params.blogId } },
 				{ new: true },
 			)
-			const updatedBlogs = await Blog.find().populate("author")
+			const updatedBlogs = await Blog.find().populate("author").sort({ createdAt: -1 })
 			return res
 				.status(200)
 				.json({ message: "Unliked blog", success: false, blogs: updatedBlogs })
@@ -77,7 +77,7 @@ module.exports.likeBlog = async (req, res, next) => {
 			{ $push: { likedBlogs: req.params.blogId } },
 			{ new: true },
 		)
-		const updatedBlogs = await Blog.find().populate("author")
+		const updatedBlogs = await Blog.find().populate("author").sort({ createdAt: -1 })
 		return res
 			.status(200)
 			.json({ message: "Liked a blog", success: true, blogs: updatedBlogs })
