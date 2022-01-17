@@ -2,6 +2,7 @@
 const { Request, Response, NextFunction } = require("express")
 const User = require("../models/user")
 const Blog = require("../models/blog")
+const ErrorResponse = require("../error/ErrorResponse")
 
 /**
  *
@@ -16,7 +17,7 @@ module.exports.getUser = async (req, res, next) => {
 			return res.status(404).json({ success: false, message: "User not found" })
 		return res.status(200).json({ success: true, user })
 	} catch (error) {
-		return res.status(500).json({ success: false, message: error.message })
+		return next(error)
 	}
 }
 
@@ -35,7 +36,7 @@ module.exports.getUsers = async (req, res, next) => {
 				.json({ success: false, message: "Users not found" })
 		return res.status(200).json({ success: true, users })
 	} catch (error) {
-		return res.status(500).json({ success: false, message: error.message })
+		return next(error)
 	}
 }
 /**
@@ -58,7 +59,7 @@ module.exports.updateAccount = async (req, res, next) => {
 		)
 		return res.status(200).json({ success: true, user })
 	} catch (error) {
-		return res.status(500).json({ success: false, message: error.message })
+		return next(error)
 	}
 }
 
@@ -76,6 +77,6 @@ module.exports.getUserBlogs = async (req, res, next) => {
 		}
 		return res.status(200).json({ success: true, blogs })
 	} catch (error) {
-		return res.status(500).json({ success: false, message: error.message })
+		return next(error)
 	}
 }

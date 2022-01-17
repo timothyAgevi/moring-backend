@@ -18,7 +18,7 @@ module.exports.emailConflict = async (req, res, next) => {
 				.json({ succcess: false, message: "Email already registered" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 /**
@@ -37,7 +37,7 @@ module.exports.accountEmailExist = async (req, res, next) => {
 				.json({ succcess: false, message: "Account does not exist" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 
@@ -57,7 +57,7 @@ module.exports.blogTitleExist = async (req, res, next) => {
 				.json({ succcess: false, message: "Blog title already exist" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 
@@ -76,7 +76,7 @@ module.exports.emptyEmailField = async (req, res, next) => {
 				.json({ succcess: false, message: "Email field required" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 
@@ -95,7 +95,7 @@ module.exports.emptyPasswordField = async (req, res, next) => {
 				.json({ succcess: false, message: "Password field required" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 
@@ -114,7 +114,7 @@ module.exports.emptyFirstName = async (req, res, next) => {
 				.json({ succcess: false, message: "First name field required" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 /**
@@ -132,7 +132,7 @@ module.exports.emptyUsername = async (req, res, next) => {
 				.json({ succcess: false, message: "username field required" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 /**
@@ -150,7 +150,7 @@ module.exports.emptyLastName = async (req, res, next) => {
 				.json({ succcess: false, message: "Last name field required" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 
@@ -172,7 +172,7 @@ module.exports.passwordMatch = async (req, res, next) => {
 		return next()
 	} catch (err) {
 		console.log("Err")
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 
@@ -192,7 +192,7 @@ module.exports.emptyBlogTitle = async (req, res, next) => {
 				.json({ succcess: false, message: "Title field required" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 
@@ -211,7 +211,7 @@ module.exports.emptyBlogBody = async (req, res, next) => {
 				.json({ succcess: false, message: "Body field required" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }
 /**
@@ -230,6 +230,6 @@ module.exports.blogTitleConflict = async (req, res, next) => {
 				.json({ succcess: false, message: "Blog title already exists" })
 		return next()
 	} catch (err) {
-		return res.status(500).json({ succcess: false, message: err.message })
+		return next(err)
 	}
 }

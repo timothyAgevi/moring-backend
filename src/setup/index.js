@@ -8,6 +8,7 @@ const userRouter = require("./../routes/user.routes")
 const authRouter = require("./../routes/auth.routes")
 const blogRouter = require("./../routes/blog.routes")
 const html = require("../html")
+const errorHandler = require("../error/errorHandler")
 
 /**
  *
@@ -28,4 +29,5 @@ module.exports = async (app) => {
 	app.get("/",(req,res)=>{
 		res.send(html)
 	})
+	app.use(errorHandler)
 }

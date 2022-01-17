@@ -27,7 +27,7 @@ module.exports.login = async (req, res, next) => {
 		const { password, ...props } = user._doc
 		return res.status(200).json({ success: true, user: props, token })
 	} catch (err) {
-		return res.status(500).json({ success: false, message: err.message })
+		return next(err)
 	}
 }
 
@@ -47,6 +47,6 @@ module.exports.register = async (req, res, next) => {
 		const token = jwt.sign({ userId: user._id, email: user.email }, SECRET_KEY)
 		return res.status(200).json({ success: true, user: props, token })
 	} catch (err) {
-		return res.status(500).json({ success: false, message: err.message })
+		return next(err)
 	}
 }

@@ -82,7 +82,7 @@ module.exports.likeBlog = async (req, res, next) => {
 			.status(200)
 			.json({ message: "Liked a blog", success: true, blogs: updatedBlogs })
 	} catch (error) {
-		return res.status(500).json({ success: false, message: error.message })
+		return next(error)
 	}
 }
 /**
@@ -111,7 +111,7 @@ module.exports.getBlogs = async (req, res, next) => {
 			.status(200)
 			.json({ success: true, message: "Query succesful", blogs })
 	} catch (err) {
-		return res.status(500).json({ success: false, message: err.message })
+		return next(err)
 	}
 }
 /**
@@ -135,6 +135,6 @@ module.exports.deleteBlog = async (req, res, next) => {
 		const blog = await Blog.findByIdAndDelete(req.params.blogId)
 		return res.status(301).json({ message: "Deleted blog ", success: true })
 	} catch (err) {
-		return res.status(500).json({ success: false, message: err.message })
+		return next(err)
 	}
 }
