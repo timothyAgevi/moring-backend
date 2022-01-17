@@ -12,6 +12,7 @@ const User = require("./../models/user")
 const Authorize = async (req, res, next) => {
 	try {
 		const HeaderToken = req.headers.authorization
+
 		if (!HeaderToken)
 			return res.json({
 				success: false,
