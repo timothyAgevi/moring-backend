@@ -127,7 +127,7 @@ module.exports.getBlogs = async (req, res, next) => {
 module.exports.updateBlog = async (req, res, next) => {
 	try {
 		const updatedBlogs = await Blog.findByIdAndUpdate(
-			req.user.blogId,
+			req.params.blogId,
 			{ ...req.body },
 			{ new: true },
 		)
