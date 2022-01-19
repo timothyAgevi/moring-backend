@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 const { Request, Response, NextFunction } = require("express")
-const User = require("../models/user")
-const Blog = require("../models/blog")
-const ErrorResponse = require("../error/ErrorResponse")
+const User = require("../Models/User.model")
+const Blog = require("../Models/Blog.model")
+const ErrorResponse = require("../ErrorHandler/ErrorResponse")
 
 /**
  *

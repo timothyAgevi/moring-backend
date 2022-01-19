@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const { Request, Response, NextFunction } = require("express")
-const Blog = require("./../models/blog")
-const User = require("./../models/user")
+const Blog = require("../Models/Blog.model")
+const User = require("../Models/User.model")
 
 /**
  ********************* CREATE A NEW BLOG ENTRY *********************
@@ -62,7 +62,9 @@ module.exports.likeBlog = async (req, res, next) => {
 				{ $pull: { likedBlogs: req.params.blogId } },
 				{ new: true },
 			)
-			const updatedBlogs = await Blog.find().populate("author").sort({ createdAt: -1 })
+			const updatedBlogs = await Blog.find()
+				.populate("author")
+				.sort({ createdAt: -1 })
 			return res
 				.status(200)
 				.json({ message: "Unliked blog", success: false, blogs: updatedBlogs })
@@ -77,7 +79,9 @@ module.exports.likeBlog = async (req, res, next) => {
 			{ $push: { likedBlogs: req.params.blogId } },
 			{ new: true },
 		)
-		const updatedBlogs = await Blog.find().populate("author").sort({ createdAt: -1 })
+		const updatedBlogs = await Blog.find()
+			.populate("author")
+			.sort({ createdAt: -1 })
 		return res
 			.status(200)
 			.json({ message: "Liked a blog", success: true, blogs: updatedBlogs })
@@ -121,7 +125,22 @@ module.exports.getBlogs = async (req, res, next) => {
  * @param {NextFunction} next
  */
 module.exports.updateBlog = async (req, res, next) => {
-	return res.status(200).json({ message: "Update blog" })
+	try {
+		const updatedBlogs = await Blog.findByIdAndUpdate(
+			req.user.blogId,
+			{ ...req.body },
+			{ new: true },
+		)
+			.populate("author")
+			.sort({ updatedAt: -1 }) //.select("+author._id +author.firstName +")
+		return res.status(200).json({
+			success: true,
+			message: "Successfully updated the post",
+			blogs: updatedBlogs,
+		})
+	} catch (error) {
+		return next(error)
+	}
 }
 
 /**
@@ -133,7 +152,12 @@ module.exports.updateBlog = async (req, res, next) => {
 module.exports.deleteBlog = async (req, res, next) => {
 	try {
 		const blog = await Blog.findByIdAndDelete(req.params.blogId)
-		return res.status(301).json({ message: "Deleted blog ", success: true })
+		const updatedBlogs = await Blog.find()
+			.populate("author")
+			.sort({ updatedAt: -1 })
+		return res
+			.status(301)
+			.json({ message: "Deleted blog ", blogs: updatedBlogs, success: true })
 	} catch (err) {
 		return next(err)
 	}

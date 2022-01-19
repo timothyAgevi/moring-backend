@@ -3,8 +3,8 @@ const {
 	getUsers,
 	updateAccount,
 	getUserBlogs,
-} = require("../controllers/user")
-const { Authorize } = require("../middleware/authorize")
+} = require("../Services/User.service")
+const { Authorize } = require("../Middlewares/Auth.middleware")
 
 const router = require("express").Router()
 

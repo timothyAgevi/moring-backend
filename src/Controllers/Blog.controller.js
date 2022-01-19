@@ -5,20 +5,26 @@ const {
 	likeBlog,
 	getBlogs,
 	getSingleBlog,
-} = require("../controllers/blog")
+} = require("../Services/Blog.service")
+const { blogTitleConflict } = require("../Middlewares/Model.middleware")
+const {
+	Authorize,
+	AuthorizeBlogOwner,
+} = require("../Middlewares/Auth.middleware")
 const {
 	emptyBlogTitle,
 	emptyBlogBody,
-	blogTitleConflict,
-} = require("../middleware/model")
-const { Authorize, AuthorizeBlogOwner } = require("../middleware/authorize")
+} = require("../Middlewares/Form.middleware")
+// const { Authorize, AuthorizeBlogOwner } = require("../Middlewares/Auth.middleware")
 
 const router = require("express").Router()
 
 router
 	.route("/new")
 	.post(Authorize, emptyBlogTitle, blogTitleConflict, emptyBlogBody, createBlog)
-router.route("/update/:blogId").put(AuthorizeBlogOwner, updateBlog)
+router
+	.route("/update/:blogId")
+	.put(AuthorizeBlogOwner, emptyBlogTitle, updateBlog)
 router.route("/delete/:blogId/").delete(AuthorizeBlogOwner, deleteBlog)
 router.route("/like/:blogId/").put(Authorize, likeBlog)
 router.route("/comment/:blogId/").put(createBlog)

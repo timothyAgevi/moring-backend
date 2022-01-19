@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const { Request, Response, NextFunction } = require("express")
-const capitalize = require("./../utils/capitalize")
+const capitalize = require("../utils/capitalize")
 const ErrorResponse = require("./ErrorResponse")
 /**
  *

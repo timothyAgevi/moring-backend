@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-vars */
 const { Request, Response, NextFunction } = require("express")
 const jwt = require("jsonwebtoken")
-const { SECRET_KEY } = require("./../config")
-const User = require("./../models/user")
+const { SECRET_KEY } = require("../config")
+const User = require("./../Models/User.model")
 /**
  ********************* CHECK IS THE EMAIL IS ALREADY REGISTERED *********************
  * @param {Request} req
  * @param {Response} res
  * @param {NextFunction} next
  */
-const Authorize = async (req, res, next) => {
+module.exports.Authorize = async (req, res, next) => {
 	try {
 		const HeaderToken = req.headers.authorization
 
@@ -40,9 +40,9 @@ const Authorize = async (req, res, next) => {
  * @param {Response} res
  * @param {NextFunction} next
  */
-const AuthorizeBlogOwner = async (req, res, next) => {
+module.exports.AuthorizeBlogOwner = async (req, res, next) => {
 	try {
-		Authorize(req, res, async () => {
+		this.Authorize(req, res, async () => {
 			const { userId } = req.user
 			const blogId = req.params.blogId
 			const user = await User.findOne({
@@ -57,4 +57,3 @@ const AuthorizeBlogOwner = async (req, res, next) => {
 	}
 }
 
-module.exports = { Authorize, AuthorizeBlogOwner }

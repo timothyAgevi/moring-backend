@@ -1,61 +1,71 @@
-/* eslint-disable no-unused-vars */
-const { Request, Response, NextFunction } = require("express")
-const Blog = require("../models/blog")
-const User = require("./../models/user")
+// eslint-disable-next-line no-unused-vars
+const express = require("express")
+const ErrorResponse = require("../ErrorHandler/ErrorResponse")
 /**
- ********************* CHECK IF CONFLICTING EMAIL ALREADY REGISTERED *********************
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns
  */
-module.exports.emailConflict = async (req, res, next) => {
+module.exports.passwordRegex = async (req, res, next) => {
 	try {
-		const { email } = req.body
-		const user = await User.findOne({ email })
-		if (user)
-			return res
-				.status(409)
-				.json({ succcess: false, message: "Email already registered" })
-		return next()
+		const { passOK, errors } = passRegex({ ...req.body })
+		// console.log(`Pass OK ${passOK}`)
+		if (!passOK) return next(new ErrorResponse(errors, 400))
+		else return next()
+	} catch (e) {
+		return next(e)
+	}
+}
+//Validate passwordRegex
+/**
+ *
+ * @param {{password:string}} param0
+ * @returns
+ */
+const passRegex = function ({ password }) {
+	let errors = ""
+	try {
+		if (password.search(new RegExp(/[a-z]+/)) < 0) {
+			errors += "Password must contain a Lowercase letter\n"
+		}
+		if (password.search(new RegExp(/[A-Z]+/)) < 0) {
+			errors += "Password must contain a Uppercase letter\n"
+		}
+		if (password.search(new RegExp(/[0-9]+/)) < 0) {
+			errors += "Password must contain a number\n"
+		}
+		if (password.length < 8) {
+			errors += "Password must be at least 8 characters\n	"
+		}
+		if (errors !== "") {
+			return { passOK: false, errors }
+		}
+		return { passOK: true, errors }
 	} catch (err) {
-		return next(err)
+		return new ErrorResponse(err, 500)
 	}
 }
 /**
- ********************* CHECK IF THE EMAIL IS ALREADY REGISTERED *********************
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns
  */
-module.exports.accountEmailExist = async (req, res, next) => {
+module.exports.passwordLength = async (req, res, next) => {
 	try {
-		const { email } = req.body
-		const user = await User.findOne({ email })
-		if (!user)
-			return res
-				.status(404)
-				.json({ succcess: false, message: "Account does not exist" })
-		return next()
-	} catch (err) {
-		return next(err)
-	}
-}
-
-/**
- ********************* CHECK IF BLOG TITLE EXIST *********************
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- */
-module.exports.blogTitleExist = async (req, res, next) => {
-	try {
-		const { title } = req.body
-		const blog = await Blog.findOne({ title })
-		if (blog)
-			return res
-				.status(409)
-				.json({ succcess: false, message: "Blog title already exist" })
-		return next()
+		const { password } = req.body
+		if (typeof password === "string") {
+			if (password.length < 8) {
+				return res.status(401).json({
+					success: false,
+					message: "Password length must be at least 8 characters",
+				})
+			}
+			return next()
+		}
 	} catch (err) {
 		return next(err)
 	}
@@ -209,25 +219,6 @@ module.exports.emptyBlogBody = async (req, res, next) => {
 			return res
 				.status(400)
 				.json({ succcess: false, message: "Body field required" })
-		return next()
-	} catch (err) {
-		return next(err)
-	}
-}
-/**
- ********************* CHECK IF CONFLICTING BLOG TITLE ALREADY REGISTERED *********************
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- */
-module.exports.blogTitleConflict = async (req, res, next) => {
-	try {
-		const { title } = req.body
-		const blog = await Blog.findOne({ title })
-		if (blog)
-			return res
-				.status(409)
-				.json({ succcess: false, message: "Blog title already exists" })
 		return next()
 	} catch (err) {
 		return next(err)

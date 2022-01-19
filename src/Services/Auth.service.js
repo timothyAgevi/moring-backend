@@ -2,7 +2,7 @@
 const { Request, Response, NextFunction } = require("express")
 const jwt = require("jsonwebtoken")
 const { SECRET_KEY } = require("../config")
-const User = require("../models/user")
+const User = require("../Models/User.model")
 
 /**
  *

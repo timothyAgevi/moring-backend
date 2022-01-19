@@ -1,20 +1,21 @@
-const { login, register } = require("../controllers/auth")
-const {  passwordRegex } = require("../middleware/forms")
+const { login, register } = require("../Services/Auth.service")
 const {
+	passwordRegex,
 	emptyEmailField,
 	emptyPasswordField,
-	emailConflict,
 	passwordMatch,
 	emptyFirstName,
 	emptyLastName,
 	emptyUsername,
-	accountEmailExist,
-} = require("../middleware/model")
+} = require("../Middlewares/Form.middleware")
+const { emailConflict, accountEmailExist } = require("../Middlewares/Model.middleware")
 
 const router = require("express").Router()
 
 // Login route
-router.route("/login").post(emptyEmailField, emptyPasswordField, accountEmailExist,login)
+router
+	.route("/login")
+	.post(emptyEmailField, emptyPasswordField, accountEmailExist, login)
 // Register route
 router
 	.route("/register")

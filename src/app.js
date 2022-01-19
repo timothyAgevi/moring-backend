@@ -1,11 +1,15 @@
 const express = require("express")
+const server = require("./Http.Server")
 const setup = require("./setup")
-const { PORT } = require("./config")
-
+/**
+ * express app instance that runs the whole application
+ */
 const app = express()
-setup(app)
-
-app.listen(PORT, () => {
-	const serverMsg = `Server running on http://localhost:${PORT}`
-	console.log(serverMsg)
-})
+/**
+ * Setup the app with required settings and middlewares
+ */
+setup({ app })
+/**
+ * Pass the app instance to be served by nodejs http server
+ */
+server({ app })
