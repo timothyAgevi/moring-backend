@@ -1,4 +1,5 @@
 const { login, register } = require("../controllers/auth")
+const {  passwordRegex } = require("../middleware/forms")
 const {
 	emptyEmailField,
 	emptyPasswordField,
@@ -24,6 +25,7 @@ router
 		emptyLastName,
 		emptyUsername,
 		emptyPasswordField,
+		passwordRegex,
 		passwordMatch,
 		register,
 	)
